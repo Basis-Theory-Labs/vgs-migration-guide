@@ -1,0 +1,17 @@
+{
+  "name": "03-migrate-data",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "NODE_ENV=local node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.3",
+    "https-proxy-agent": "^5.0.1"
+  },
+  "devDependencies": {
+    "eslint": "8.24.0"
+  }
+}
