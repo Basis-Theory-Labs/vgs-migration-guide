@@ -1,0 +1,3 @@
+# Step 3 - Migrate Data from VGS to Basis Theory
+
+This application demonstrates how to migrate data from VGS utilizing a VGS Outbound Proxy to detokenize the data and forward it to a [Basis Theory Proxy](https://developers.basistheory.com/concepts/what-is-the-proxy/). The Basis Theory Proxy is configured with a Request Reactor to tokenize the payload and forward the resulting token to our backend API.

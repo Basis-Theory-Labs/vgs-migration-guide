@@ -1,34 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Migration App
 
-## Getting Started
+This guide will walk you through the steps on how to move from Very Good Security to Basis Theory iteratively without any downtime to your existing applications and systems.
 
-First, run the development server:
+This guide was written in JavaScript utilizing Node.JS 16 runtime. Please ensure you have [Node installed](https://nodejs.org/).
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Guide
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Step                                                                      | Description                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Step 1 - Existing Application](./01-existing-application/)               | This is an existing application fully utilizing the VGS Collect and VGS Proxy.                                                                                                                               |
+| [Step 2 - Add Basis Theory Elements](./02-add-elements/)                  | This application replaces VGS Collect.js with Basis Theory Elements and introduces a Basis Theory Proxy as a shim to ensure backwards compatibility with backend APIs and services using VGS Outbound Proxy. |
+| [Step 3 - Migrate Data from VGS to Basis Theory](./03-migrate-data)       | This application demonstrates how to migrate data from VGS to Basis Theory utilizing a VGS Outbound Proxy and a Basis Theory Proxy configured with a Reactor to re-tokenize the data.                        |
+| [Step 4 - Replace VGS Proxy with Basis Theory Proxy](./04-replace-proxy/) | This application removes the Basis Theory Proxy shim we created in Step 2 and utilizes Basis Theory Proxy for outbound calls.                                                                                |
