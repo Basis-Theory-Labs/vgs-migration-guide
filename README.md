@@ -1,4 +1,4 @@
-# Migration App
+# Very Good Security Migration Guide
 
 This guide will walk you through the steps on how to move from Very Good Security to Basis Theory iteratively without any downtime to your existing applications and systems.
 
