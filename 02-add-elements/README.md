@@ -23,7 +23,7 @@ Copy the values you created for `NEXT_PUBLIC_VGS_VAULT_ID`, `VGS_USERNAME`, and 
 * `@basis-theory/basis-theory-js`
 * `@basis-theory/basis-theory-react`
 
-If you do not use React, please see [our guide](https://docs.basistheory.com/elements/#initialize) on how to utilize Bassi Theory Elements with Vanilla JS.
+If you do not use React, please see [our guide](https://docs.basistheory.com/elements/#initialize) on how to utilize Basis Theory Elements with Vanilla JS.
 
 ## Create a Basis Theory Management Application
 1. When logged into Basis Theory, navigate to Applications
