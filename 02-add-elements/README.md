@@ -48,7 +48,7 @@ We need a public application to be able to initialize Basis Theory Elements in o
       "name": "Public Elements App",
       "type": "public",
       "permissions": [
-        "token:pci:create"
+        "token:create"
       ]
     }'
    ```

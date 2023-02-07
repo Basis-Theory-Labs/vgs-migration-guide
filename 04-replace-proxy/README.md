@@ -26,7 +26,7 @@ We need a public application to be able to initialize Basis Theory Elements in o
       "name": "Private App",
       "type": "private",
       "permissions": [
-        "token:pci:use:proxy"
+        "token:use"
       ]
     }'
    ```
