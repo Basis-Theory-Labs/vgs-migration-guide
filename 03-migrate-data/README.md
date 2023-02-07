@@ -79,7 +79,7 @@ We need a private application which will be injected into our Reactor to enable 
       "name": "Migration Proxy App",
       "type": "private",
       "permissions": [
-        "token:pci:create"
+        "token:create"
       ]
     }'
    ```
