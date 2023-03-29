@@ -20,9 +20,29 @@ Copy the values you created for `NEXT_PUBLIC_VGS_VAULT_ID`, `VGS_USERNAME`, and 
 
 `NODE_TLS_REJECT_UNAUTHORIZED` is set to `0` to reject self-signed SSL certificates from VGS. This can be removed, but the Sandbox and CA certificates need to be configured in the `proxy.js` API class.
 
-## Create a Reactor Formula
 
-This is the code which will combine multiple VGS tokens into a single Basis Theory token.
+## Create a Basis Theory Private Application
+We need a private application which will be injected into our Reactor to enable us to tokenize the inbound request body.
+
+1. Run the following command in your terminal to create a Basis Theory Private App:
+   ```bash
+   curl "https://api.basistheory.com/applications" \
+    -H "BT-API-KEY: <MANAGEMENT API KEY>" \
+    -H "Content-Type: application/json" \
+    -X "POST" \
+    -d '{
+      "name": "Migration Proxy App",
+      "type": "private",
+      "permissions": [
+        "token:create"
+      ]
+    }'
+   ```
+2. Save the `id` from the response as it will be used in the next step.
+
+## Create a Basis Theory Proxy
+
+This will be the endpoint collecting the VGS tokens data and combine it into a single Basis Theory token.
 
 We extract the parts of the request body, call tokenize to create a new `card` token, and return the card token ID:
 
@@ -51,84 +71,38 @@ module.exports = async function (req) {
 };
 ```
 
-1. Run the following command in your terminal to create Basis Theory Reactor Formula:
-    ```bash
-   curl "https://api.basistheory.com/reactor-formulas" \
-    -H "BT-API-KEY: <MANAGEMENT API KEY>" \
-    -H "Content-Type: application/json" \
-    -X "POST" \
-    -d '{
-      "type": "private",
-      "name": "Migration Formula",
-      "description": "Used to tokenized cards for VGS data migration",
-      "code": "module.exports = async function (req) {\n  const expirationDateParts = req.args.body.card_exp.split(\"/\");\n\n  const token = await req.bt.tokenize({\n    type: \"card\",\n    data: {\n      number: req.args.body.card_number,\n      expiration_month: parseInt(expirationDateParts[0].trim()),\n      expiration_year: parseInt(`20${expirationDateParts[1].trim()}`),\n      cvc: req.args.body.card_cvc,\n    },\n  });\n\n  return {\n    raw: {\n      headers: req.args.headers,\n      body: {\n        cardTokenId: token.id,\n      }\n    }\n  };\n};"
-    }'
-   ```
-2. Save the `id` from the response as it will be used in a later step.
-
-## Create a Basis Theory Private Application
-We need a private application which will be injected into our Reactor to enable us to tokenize the inbound request body.
-
-1. Run the following command in your terminal to create a Basis Theory Private App:
+1. Run the following command to store the JavaScript code in a variable:
    ```bash
-   curl "https://api.basistheory.com/applications" \
-    -H "BT-API-KEY: <MANAGEMENT API KEY>" \
-    -H "Content-Type: application/json" \
-    -X "POST" \
-    -d '{
-      "name": "Migration Proxy App",
-      "type": "private",
-      "permissions": [
-        "token:create"
-      ]
-    }'
+   # actual code omitted for simplicity
+   javascript='module.exports = async function (req) {...}'
    ```
-1. Save the `id` from the response as it will be used in a later step.
 
-## Create a Basis Theory Reactor
-This step combines the Reactor Formula and Applications created in the previous two steps.
-
-1. Run the following command in your terminal to create a Basis Theory Reactor:
-   ```bash
-    curl "https://api.basistheory.com/reactors" \
-      -H "BT-API-KEY: <MANAGEMENT API KEY>" \
-      -H "Content-Type: application/json" \
-      -X "POST" \
-      -d '{
-        "name": "Migration Reactor",
+2. Run the following command in your terminal to create the Proxy:
+   ```bash   
+   curl "https://api.basistheory.com/proxies" \
+     -H "BT-API-KEY: <MANAGEMENT API KEY>" \
+     -H "Content-Type: application/json" \
+     -X "POST" \
+     -d '{
+       "name": "Migration Proxy",
+       "destination_url": "https://echo.basistheory.com/post",
+       "require_auth": false,
+       "request_transform": {
+         "code": '"$(echo $javascript | jq -Rsa .)"'
+       },
         "application": {
           "id": "<PRIVATE APPLICATION ID>"
-        },
-        "formula": {
-          "id": "<REACTOR FORMULA ID>"
         }
-      }'
+     }'
    ```
-2. Save the `id` from the response as it will be used in a later step.
 
-## Create a Basis Theory Proxy
-Now we need to create our Basis Theory Proxy which will run our previously created reactor and forward the result to our API.
-
-1. Run the following command in your terminal to create a Basis Theory Proxy:
-   ```bash
-    curl "https://api.basistheory.com/proxies" \
-      -H "BT-API-KEY: <MANAGEMENT API KEY>" \
-      -H "Content-Type: application/json" \
-      -X "POST" \
-      -d '{
-        "name": "Migration Proxy",
-        "request_reactor_id": "<REACTOR ID>",
-        "destination_url": "https://echo.basistheory.com/post",
-        "require_auth": false
-      }'
-   ```
-2. 1. Copy the `key` value in the response to the `.env.local` file as the `BASIS_THEORY_PROXY_KEY` value
+3. Copy the `key` value in the response to the `.env.local` file as the `BASIS_THEORY_PROXY_KEY` value
 
 ## Create a VGS Outbound Proxy
 1. Set upstream host to `api\.basistheory\.com` ![Outbound Host](./public/outbound_host.png)
 2. Add filter for `/proxy` path with `$.card_number` and `$.card_exp` as `REVEAL` and `PERSISTENT` storage.
 ![Outbound Persistent](./public/outbound_persistent.png)
-1. Add filter for `/proxy` path with `$.card_cvc` as `REVEAL` and `VOLATILE` storage.
+3. Add filter for `/proxy` path with `$.card_cvc` as `REVEAL` and `VOLATILE` storage.
 ![Outbound Volatile](./public/outbound_volatile.png)
 
 ## Replace the VGS Token IDs

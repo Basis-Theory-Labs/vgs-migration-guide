@@ -30,7 +30,7 @@ We need a public application to be able to initialize Basis Theory Elements in o
       ]
     }'
    ```
-1. Copy the `key` value in the response to the `.env.local` file as the `BASIS_THEORY_PRIVATE_KEY` value
+2. Copy the `key` value in the response to the `.env.local` file as the `BASIS_THEORY_PRIVATE_KEY` value
 
 ## Remove Proxy call to VGS Inbound Proxy
 Navigate to [`components/Home.hooks.js`](./components/Home.hooks.js) and remove the Proxy call to `https://api.basistheory.com/proxy` and remove unneeded VGS tokens from the forwarded result.
