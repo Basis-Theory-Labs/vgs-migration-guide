@@ -23,15 +23,15 @@ Copy the values you created for `NEXT_PUBLIC_VGS_VAULT_ID`, `VGS_USERNAME`, and 
 * `@basis-theory/basis-theory-js`
 * `@basis-theory/basis-theory-react`
 
-If you do not use React, please see [our guide](https://docs.basistheory.com/elements/#initialize) on how to utilize Basis Theory Elements with Vanilla JS.
+If you do not use React, please see [our guide](https://developers.basistheory.com/docs/sdks/web/javascript/) on how to utilize Basis Theory Elements with Vanilla JS.
 
 ## Create a Basis Theory Management Application
 1. When logged into Basis Theory, navigate to Applications
-1. Click `Create Application`
-1. Choose `Management` application type
-1. Name your application
-1. Check permissions for `application`, `reactor`, and `proxy`
-1. Click `Create Application` and copy the resulting API Key
+2. Click `Create Application`
+3. Choose `Management` application type
+4. Name your application
+5. Check permissions for `application` and `proxy`
+6. Click `Create Application` and copy the resulting API Key
 
 ***Be sure to save this API Key as we will use this to provision our Basis Theory Tenant for the rest of this guide.***
 
