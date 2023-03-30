@@ -1,6 +1,6 @@
 # Step 3 - Migrate Data from VGS to Basis Theory
 
-This application demonstrates how to migrate data from VGS utilizing a VGS Outbound Proxy to detokenize the data and forward it to a [Basis Theory Proxy](https://developers.basistheory.com/concepts/what-is-the-proxy/). The Basis Theory Proxy is configured with a Request Reactor to tokenize the payload and forward the resulting token to our backend API.
+This application demonstrates how to migrate data from VGS utilizing a VGS Outbound Proxy to detokenize the data and forward it to a [Basis Theory Proxy](https://developers.basistheory.com/docs/concepts/what-is-the-proxy/). The Basis Theory Proxy is configured with a [Request Transform](https://developers.basistheory.com/docs/api/proxies/pre-configured-proxies#request-transforms) to tokenize the payload and forward the resulting token to our backend API.
 
 We need to the ability to tokenize our VGS tokens as a Basis Theory `card` token. In order to do this, we will need to intercept a request to our API from the VGS Outbound Proxy, tokenize multiple VGS tokens as a single Basis Theory token, and forward it to our backend API endpoint.
 
@@ -22,7 +22,7 @@ Copy the values you created for `NEXT_PUBLIC_VGS_VAULT_ID`, `VGS_USERNAME`, and 
 
 
 ## Create a Basis Theory Private Application
-We need a private application which will be injected into our Reactor to enable us to tokenize the inbound request body.
+We need a private application which will be injected into our Request Transform code to enable us to tokenize the inbound request body.
 
 1. Run the following command in your terminal to create a Basis Theory Private App:
    ```bash
